@@ -1,0 +1,5 @@
+.decl Pizza(name:symbol)
+Pizza("Margherita").
+Pizza("Pepperoni").
+
+.output Pizza
