@@ -15,8 +15,15 @@
 ###  http://example.org/kr-project/pizza#containsAllergen
 :containsAllergen rdf:type owl:ObjectProperty ;
                   rdfs:subPropertyOf owl:topObjectProperty ;
-                  rdfs:domain :Ingredient ;
-                  rdfs:range :Allergen .
+                  rdfs:domain [ rdf:type owl:Class ;
+                                owl:unionOf ( :Ingredient
+                                              :Pizza
+                                            )
+                              ] ;
+                  rdfs:range :Allergen ;
+                  owl:propertyChainAxiom ( :hasIngredient
+                                           :containsAllergen
+                                         ) .
 
 
 ###  http://example.org/kr-project/pizza#cookedBy
@@ -59,6 +66,7 @@
 ###  http://example.org/kr-project/pizza#hasSpiciness
 :hasSpiciness rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf owl:topObjectProperty ;
+              rdf:type owl:FunctionalProperty ;
               rdfs:domain :Ingredient ;
               rdfs:range :Spiciness .
 
@@ -66,6 +74,7 @@
 ###  http://example.org/kr-project/pizza#hasStyle
 :hasStyle rdf:type owl:ObjectProperty ;
           rdfs:subPropertyOf owl:topObjectProperty ;
+          rdf:type owl:FunctionalProperty ;
           rdfs:domain :Pizza ;
           rdfs:range :PizzaStyle .
 
@@ -80,11 +89,6 @@
 ###  http://example.org/kr-project/pizza#isIngredientOf
 :isIngredientOf rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf owl:topObjectProperty .
-
-
-###  http://example.org/kr-project/pizza#isVariantOf
-:isVariantOf rdf:type owl:ObjectProperty ;
-             rdfs:subPropertyOf owl:topObjectProperty .
 
 
 #################################################################
@@ -168,11 +172,20 @@
 
 ###  http://example.org/kr-project/pizza#ChiliPepper
 :ChiliPepper rdf:type owl:Class ;
-             rdfs:subClassOf :VegetableTopping .
+             rdfs:subClassOf :VegetableTopping ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSpiciness ;
+                               owl:someValuesFrom :Hot
+                             ] .
 
 
 ###  http://example.org/kr-project/pizza#CookingMethod
-:CookingMethod rdf:type owl:Class .
+:CookingMethod rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Class ;
+                                     owl:oneOf ( :ElectricOven
+                                                 :WoodFired
+                                               )
+                                   ] .
 
 
 ###  http://example.org/kr-project/pizza#Diavola
@@ -180,13 +193,13 @@
          rdfs:subClassOf :NamedPizza .
 
 
-###  http://example.org/kr-project/pizza#DietaryCategory
-:DietaryCategory rdf:type owl:Class .
-
-
 ###  http://example.org/kr-project/pizza#Dough
 :Dough rdf:type owl:Class ;
-       rdfs:subClassOf :Ingredient .
+       rdfs:subClassOf :Ingredient ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :containsAllergen ;
+                         owl:hasValue :Gluten
+                       ] .
 
 
 ###  http://example.org/kr-project/pizza#FruitTopping
@@ -206,7 +219,11 @@
 
 ###  http://example.org/kr-project/pizza#Gorgonzola
 :Gorgonzola rdf:type owl:Class ;
-            rdfs:subClassOf :CheeseTopping .
+            rdfs:subClassOf :CheeseTopping ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :containsAllergen ;
+                              owl:hasValue :Dairy
+                            ] .
 
 
 ###  http://example.org/kr-project/pizza#GreenOlive
@@ -231,7 +248,6 @@
 
 ###  http://example.org/kr-project/pizza#Hot
 :Hot rdf:type owl:Class ;
-     owl:equivalentClass :Spiciness ;
      rdfs:subClassOf :Spiciness .
 
 
@@ -251,7 +267,11 @@
 
 ###  http://example.org/kr-project/pizza#Margherita
 :Margherita rdf:type owl:Class ;
-            rdfs:subClassOf :NamedPizza .
+            rdfs:subClassOf :NamedPizza ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasStyle ;
+                              owl:hasValue :Neapolitan
+                            ] .
 
 
 ###  http://example.org/kr-project/pizza#Marinara
@@ -266,19 +286,21 @@
 
 ###  http://example.org/kr-project/pizza#Medium
 :Medium rdf:type owl:Class ;
-        owl:equivalentClass :Spiciness ;
         rdfs:subClassOf :Spiciness .
 
 
 ###  http://example.org/kr-project/pizza#Mild
 :Mild rdf:type owl:Class ;
-      owl:equivalentClass :Spiciness ;
       rdfs:subClassOf :Spiciness .
 
 
 ###  http://example.org/kr-project/pizza#Mozzarella
 :Mozzarella rdf:type owl:Class ;
-            rdfs:subClassOf :CheeseTopping .
+            rdfs:subClassOf :CheeseTopping ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :containsAllergen ;
+                              owl:hasValue :Dairy
+                            ] .
 
 
 ###  http://example.org/kr-project/pizza#Mushroom
@@ -296,9 +318,30 @@
             rdfs:subClassOf :Pizza .
 
 
+###  http://example.org/kr-project/pizza#NeapolitanPizza
+:NeapolitanPizza rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :hasStyle ;
+                                                              owl:hasValue :Neapolitan
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :Pizza ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :cookedBy ;
+                                   owl:hasValue :WoodFired
+                                 ] .
+
+
 ###  http://example.org/kr-project/pizza#NutTopping
 :NutTopping rdf:type owl:Class ;
-            rdfs:subClassOf :Topping .
+            rdfs:subClassOf :Topping ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :containsAllergen ;
+                              owl:hasValue :Nuts
+                            ] .
 
 
 ###  http://example.org/kr-project/pizza#OliveOil
@@ -323,12 +366,20 @@
 
 ###  http://example.org/kr-project/pizza#Parmesan
 :Parmesan rdf:type owl:Class ;
-          rdfs:subClassOf :CheeseTopping .
+          rdfs:subClassOf :CheeseTopping ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :containsAllergen ;
+                            owl:hasValue :Dairy
+                          ] .
 
 
 ###  http://example.org/kr-project/pizza#Pepperoni
 :Pepperoni rdf:type owl:Class ;
-           rdfs:subClassOf :MeatTopping .
+           rdfs:subClassOf :MeatTopping ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasSpiciness ;
+                             owl:someValuesFrom :Medium
+                           ] .
 
 
 ###  http://example.org/kr-project/pizza#PepperoniPizza
@@ -338,7 +389,19 @@
 
 ###  http://example.org/kr-project/pizza#Pesto
 :Pesto rdf:type owl:Class ;
-       rdfs:subClassOf :Sauce .
+       rdfs:subClassOf :Sauce ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasIngredient ;
+                         owl:someValuesFrom :Basil
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasIngredient ;
+                         owl:someValuesFrom :Cashew
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasIngredient ;
+                         owl:someValuesFrom :Parmesan
+                       ] .
 
 
 ###  http://example.org/kr-project/pizza#Pineapple
@@ -351,11 +414,22 @@
 
 
 ###  http://example.org/kr-project/pizza#PizzaBase
-:PizzaBase rdf:type owl:Class .
+:PizzaBase rdf:type owl:Class ;
+           rdfs:subClassOf :Ingredient ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasIngredient ;
+                             owl:someValuesFrom :Dough
+                           ] .
 
 
 ###  http://example.org/kr-project/pizza#PizzaStyle
-:PizzaStyle rdf:type owl:Class .
+:PizzaStyle rdf:type owl:Class ;
+            owl:equivalentClass [ rdf:type owl:Class ;
+                                  owl:oneOf ( :Neapolitan
+                                              :Roman
+                                              :Sicilian
+                                            )
+                                ] .
 
 
 ###  http://example.org/kr-project/pizza#ProsciuttoPizza
@@ -380,12 +454,20 @@
 
 ###  http://example.org/kr-project/pizza#Ricotta
 :Ricotta rdf:type owl:Class ;
-         rdfs:subClassOf :CheeseTopping .
+         rdfs:subClassOf :CheeseTopping ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :containsAllergen ;
+                           owl:hasValue :Dairy
+                         ] .
 
 
 ###  http://example.org/kr-project/pizza#Salami
 :Salami rdf:type owl:Class ;
-        rdfs:subClassOf :MeatTopping .
+        rdfs:subClassOf :MeatTopping ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasSpiciness ;
+                          owl:someValuesFrom :Medium
+                        ] .
 
 
 ###  http://example.org/kr-project/pizza#Sauce
@@ -400,7 +482,11 @@
 
 ###  http://example.org/kr-project/pizza#SeafoodTopping
 :SeafoodTopping rdf:type owl:Class ;
-                rdfs:subClassOf :Topping .
+                rdfs:subClassOf :Topping ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :containsAllergen ;
+                                  owl:hasValue :Fish
+                                ] .
 
 
 ###  http://example.org/kr-project/pizza#Shrimp
@@ -409,7 +495,13 @@
 
 
 ###  http://example.org/kr-project/pizza#Spiciness
-:Spiciness rdf:type owl:Class .
+:Spiciness rdf:type owl:Class ;
+           owl:equivalentClass [ rdf:type owl:Class ;
+                                 owl:unionOf ( :Hot
+                                               :Medium
+                                               :Mild
+                                             )
+                               ] .
 
 
 ###  http://example.org/kr-project/pizza#Spinach
@@ -471,6 +563,11 @@
                 :Allergen .
 
 
+###  http://example.org/kr-project/pizza#ElectricOven
+:ElectricOven rdf:type owl:NamedIndividual ,
+                       :CookingMethod .
+
+
 ###  http://example.org/kr-project/pizza#Fish
 :Fish rdf:type owl:NamedIndividual ,
                :Allergen .
@@ -481,14 +578,45 @@
                  :Allergen .
 
 
+###  http://example.org/kr-project/pizza#Neapolitan
+:Neapolitan rdf:type owl:NamedIndividual ,
+                     :PizzaStyle .
+
+
 ###  http://example.org/kr-project/pizza#Nuts
 :Nuts rdf:type owl:NamedIndividual ,
                :Allergen .
 
 
+###  http://example.org/kr-project/pizza#Roman
+:Roman rdf:type owl:NamedIndividual ,
+                :PizzaStyle .
+
+
+###  http://example.org/kr-project/pizza#Sicilian
+:Sicilian rdf:type owl:NamedIndividual ,
+                   :PizzaStyle .
+
+
+###  http://example.org/kr-project/pizza#WoodFired
+:WoodFired rdf:type owl:NamedIndividual ,
+                    :CookingMethod .
+
+
 #################################################################
 #    General axioms
 #################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Allergen
+                :CookingMethod
+                :Ingredient
+                :Pizza
+                :PizzaStyle
+                :Spiciness
+              )
+] .
+
 
 [ rdf:type owl:AllDisjointClasses ;
   owl:members ( :Anchovy
@@ -560,12 +688,10 @@
 
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( :CookingMethod
-                :DietaryCategory
-                :Ingredient
-                :Pizza
+  owl:members ( :Dough
                 :PizzaBase
-                :PizzaStyle
+                :Sauce
+                :Topping
               )
 ] .
 
@@ -589,10 +715,32 @@
 
 
 [ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Hot
+                :Medium
+                :Mild
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
   owl:members ( :OliveOil
                 :Pesto
                 :TomatoSauce
               )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Dairy
+                        :ElectricOven
+                        :Fish
+                        :Gluten
+                        :Neapolitan
+                        :Nuts
+                        :Roman
+                        :Sicilian
+                        :WoodFired
+                      )
 ] .
 
 
