@@ -1,5 +1,100 @@
-.decl Pizza(name:symbol)
-Pizza("Margherita").
-Pizza("Pepperoni").
+//1. FACTS
+//1.1 direct subclass relationships
+.decl subClass(child:symbol, parent:symbol)
+subClass("NamedPizza", "Pizza").
+subClass("Margherita", "NamedPizza").
+subClass("Marinara", "NamedPizza").
+subClass("Diavola", "NamedPizza").
 
-.output Pizza
+//ingredients of each pizza
+subClass("Topping", "Ingredient").
+subClass("MeatTopping", "Topping").
+subClass("VegetableTopping", "Topping").
+subClass("CheeseTopping", "Topping").
+subClass("HerbTopping", "Topping").
+
+subClass("Pepperoni", "MeatTopping").
+subClass("Salami", "MeatTopping").
+subClass("Ham", "MeatTopping").
+
+subClass("Tomato", "VegetableTopping").
+subClass("ChiliPepper", "VegetableTopping").
+
+subClass("Mozzarella", "CheeseTopping").
+
+subClass("Basil", "HerbTopping").
+
+//1.2 ingredients of each pizza
+.decl hasTopping(pizza:symbol, topping:symbol)
+hasTopping("Diavola", "Mozzarella").
+hasTopping("Diavola", "Salami").
+hasTopping("Diavola", "ChiliPepper").
+
+hasTopping("Margherita", "Mozzarella").
+hasTopping("Margherita", "Basil").
+
+//1.3 properties of ingredients
+.decl hot(ingredient:symbol)
+.decl containsAllergen(ingredient:symbol, allergen:symbol)
+
+hot("ChiliPepper").
+containsAllergen("Mozzarella", "Dairy").
+
+//2. RULES
+
+//2.1 recursive subclass relationships
+.decl subClassOf(child:symbol, parent:symbol)
+
+subClassOf(x,y) :- subClass(x,y).
+//AxAy(subClass(x,y) --> subClassOf(x,y)) So :- == <-- 
+
+subClassOf(x,z) :-
+    subClass(x,y),
+    subClassOf(y,z).
+//AxAyAz((subClass(x,y) AND subClassOf(y,z)) --> subClassOf(x,z)) So ':-; == 'if' ',' == 'AND;
+
+.output subClassOf
+
+//2.2 ingredient classifications
+.decl containsCategory(pizza:symbol, category:symbol)
+
+containsCategory(p, c) :-
+    hasTopping(p, t),
+    subClassOf(t, c).
+.output containsCategory
+//if pizza p has topping t, and topping t is a subclass of category c, then pizza p contains an ingredient of category c
+
+.decl containsMeat(pizza:symbol)
+.decl containsCheese(pizza:symbol)
+.decl containsVegetable(pizza:symbol)
+
+containsMeat(p) :-
+    containsCategory(p, "MeatTopping").
+
+containsCheese(p) :-
+    containsCategory(p, "CheeseTopping").
+
+containsVegetable(p) :-
+    containsCategory(p, "VegetableTopping").
+ 
+.output containsMeat
+.output containsCheese
+.output containsVegetable
+
+//2.3 spicy pizzas
+
+
+//2.4 meat and vegetable pizzas
+
+
+//2.5 vegetarian pizzas
+
+
+//2.6 vegan pizzas
+
+
+//2.7 dairy-free pizzas
+
+
+
+
