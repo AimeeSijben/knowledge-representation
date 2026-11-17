@@ -185,8 +185,15 @@ hasTopping("Calzone", "Ricotta").
 hasTopping("Calzone", "Ham").
 
 //1.3 properties of ingredients
-.decl hot(ingredient:symbol)
-hot("ChiliPepper").
+.decl spicinessLevel(level:symbol)
+spicinessLevel("Mild").
+spicinessLevel("medium").
+spicinessLevel("Hot").
+
+.decl hasSpiciness(ingredient:symbol, level:symbol)
+hasSpiciness("ChiliPepper", "Hot").
+hasSpiciness("Pepperoni", "Medium").
+hasSpiciness("Salami", "Medium").
 
 .decl containsAllergen(ingredient:symbol, allergen:symbol)
 containsAllergen("Mozzarella", "Dairy").
@@ -226,6 +233,7 @@ containsCategory(p, c) :-
 .decl containsCheese(pizza:symbol)
 .decl containsVegetable(pizza:symbol)
 .decl containsSeafood(pizza:symbol)
+.decl containsDairy(pizza:symbol)
 
 containsMeat(p) :-
     containsCategory(p, "MeatTopping").
@@ -238,6 +246,9 @@ containsVegetable(p) :-
 
 containsSeafood(p) :-
     containsCategory(p, "SeafoodTopping").
+
+containsDairy(p) :-
+    containsCategory(p, ")
  
 .output containsMeat
 .output containsCheese
@@ -245,10 +256,25 @@ containsSeafood(p) :-
 .output containsSeafood
 
 //2.3 spicy pizzas
+
+.decl ingredientSpiciness(ingredient:symbol, level:symbol)
+ingredientSpiciness(i, s) :-
+    hasSpiciness(i, s).
+
+ingredientSpiciness(i, s) :-
+    subClassOf(i, c),
+    hasSpiciness(i, s).
+
+.decl spicy(pizza:symbol, level:symbol)
+pizzaSpiciness(p, s) :-
+    hasIngredient(p, i)
+    ingredientSpiciness(i, s)
+.output pizzaSpiciness
+
 .decl spicy(pizza:symbol)
 spicy(p) :-
-    hasIngredient(p, i),
-    hot(i).
+    pizzaSpiciness(p, s),
+    spicinessLevel(s).
 .output spicy
 
 //2.4 meat and vegetable pizzas
@@ -275,7 +301,7 @@ vegetarian(p) :-
 vegan(p) :-
     vegetarian(p),
     !containsMeat(p),
-    !containsCheese.
+    !containsAllergen(p).
 .output vegan
 
 //2.7 dairyFree pizzas
@@ -284,6 +310,4 @@ dairyFree(p) :-
     pizza(p),
     !containsAllergen(p).
 .output dairyFree
-
-
 
