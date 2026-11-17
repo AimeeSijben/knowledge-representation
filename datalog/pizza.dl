@@ -2,43 +2,198 @@
 //1.1 direct subclass relationships
 .decl subClass(child:symbol, parent:symbol)
 subClass("NamedPizza", "Pizza").
+
 subClass("Margherita", "NamedPizza").
 subClass("Marinara", "NamedPizza").
+subClass("QuattroFormaggi", "NamedPizza").
+subClass("QuattroStagioni", "NamedPizza").
+subClass("PepperoniPizza", "NamedPizza").
+subClass("HawaiianPizza", "NamedPizza").
+subClass("Capricciosa", "NamedPizza").
+subClass("FunghiPizza", "NamedPizza").
+subClass("ProsciuttoPizza", "NamedPizza").
 subClass("Diavola", "NamedPizza").
+subClass("Ortolana", "NamedPizza").
+subClass("Vegetariana", "NamedPizza").
+subClass("SeafoodPizza", "NamedPizza").
+subClass("TonnoPizza", "NamedPizza").
+subClass("BBQChickenPizza", "NamedPizza").
+subClass("Calzone", "NamedPizza").
 
-//ingredients of each pizza
+subClass("Dough", "Ingredient").
+
+subClass("Sauce", "Ingredient").
+subClass("TomatoSauce", "Sauce").
+subClass("Pesto", "Sauce").
+subClass("OliveOil", "Sauce").
+
 subClass("Topping", "Ingredient").
-subClass("MeatTopping", "Topping").
-subClass("VegetableTopping", "Topping").
-subClass("CheeseTopping", "Topping").
-subClass("HerbTopping", "Topping").
 
+subClass("CheeseTopping", "Topping").
+subClass("Mozzarella", "CheeseTopping").
+subClass("Parmesan", "CheeseTopping").
+subClass("Gorgonzola", "CheeseTopping").
+subClass("Ricotta", "CheeseTopping").
+subClass("VeganCheese", "CheeseTopping").
+
+subClass("VegetableTopping", "Topping").
+subClass("Tomato", "VegetableTopping").
+subClass("Onion", "VegetableTopping").
+subClass("RedOnion", "Onion").
+subClass("Garlic", "VegetableTopping").
+subClass("BellPepper", "VegetableTopping").
+subClass("Spinach", "VegetableTopping").
+subClass("ChiliPepper", "VegetableTopping").
+subClass("Jalapeno", "ChiliPepper").
+subClass("Arugula", "VegetableTopping").
+subClass("Artichoke", "VegetableTopping").
+subClass("BlackOlive", "VegetableTopping").
+subClass("GreenOlive", "VegetableTopping").
+
+subClass("MushroomTopping", "Topping").
+subClass("Mushroom", "MushroomTopping").
+
+subClass("HerbTopping", "Topping").
+subClass("Basil", "HerbTopping").
+subClass("Oregano", "HerbTopping").
+
+subClass("FruitTopping", "Topping").
+subClass("Pineapple", "FruitTopping").
+
+subClass("MeatTopping", "Topping").
 subClass("Pepperoni", "MeatTopping").
 subClass("Salami", "MeatTopping").
 subClass("Ham", "MeatTopping").
+subClass("Chicken", "MeatTopping").
+subClass("Bacon", "MeatTopping").
+subClass("Beef", "MeatTopping").
 
-subClass("Tomato", "VegetableTopping").
-subClass("ChiliPepper", "VegetableTopping").
+subClass("SeafoodTopping", "Topping").
+subClass("Tuna", "SeafoodTopping").
+subClass("Anchovy", "SeafoodTopping").
+subClass("Shrimp", "SeafoodTopping").
 
-subClass("Mozzarella", "CheeseTopping").
+subClass("LegumeTopping", "Topping").
+subClass("Tofu", "LegumeTopping").
 
-subClass("Basil", "HerbTopping").
+subClass("NutTopping", "Topping").
+subClass("Cashew", "NutTopping").
 
-//1.2 ingredients of each pizza
+
+ //1.2 ingredients of each pizza
 .decl hasTopping(pizza:symbol, topping:symbol)
+.decl hasSauce(pizza:symbol, sauce:symbol)
+
+//Margherita
+hasSauce("Margherita", "TomatoSauce").
+hasTopping("Margherita", "Mozzarella").
+hasTopping("Margherita", "Basil").
+
+//Marinara
+hasSauce("Marinara", "TomatoSauce").
+hasTopping("Marinara", "Garlic").
+hasTopping("Marinara", "Oregano").
+
+//QuattroFormaggi
+hasSauce("QuattroFormaggi", "TomatoSauce").
+hasTopping("QuattroFormaggi", "Mozzarella").
+hasTopping("QuattroFormaggi", "Parmesan").
+hasTopping("QuattroFormaggi", "Gorgonzola").
+hasTopping("QuattroFormaggi", "Ricotta").
+
+//Diavola
+hasSauce("Diavola", "TomatoSauce").
 hasTopping("Diavola", "Mozzarella").
 hasTopping("Diavola", "Salami").
 hasTopping("Diavola", "ChiliPepper").
 
-hasTopping("Margherita", "Mozzarella").
-hasTopping("Margherita", "Basil").
+//Ortolana
+hasSauce("Ortolana", "Pesto").
+hasTopping("Ortolana", "Spinach").
+hasTopping("Ortolana", "Artichoke").
+hasTopping("Ortolana", "BellPepper").
+hasTopping("Ortolana", "Arugula").
+
+//PepperoniPizza
+hasSauce("PepperoniPizza", "TomatoSauce").
+hasTopping("PepperoniPizza", "Mozzarella").
+hasTopping("PepperoniPizza", "Pepperoni").
+
+//FunghiPizza
+hasSauce("FunghiPizza", "TomatoSauce").
+hasTopping("FunghiPizza", "Mozzarella").
+hasTopping("FunghiPizza", "Mushroom").
+
+//HawaiianPizza
+hasSauce("HawaiianPizza", "TomatoSauce").
+hasTopping("HawaiianPizza", "Mozzarella").
+hasTopping("HawaiianPizza", "Ham").
+hasTopping("HawaiianPizza", "Pineapple").
+
+//ProsciuttoPizza
+hasSauce("ProsciuttoPizza", "TomatoSauce").
+hasTopping("ProsciuttoPizza", "Mozzarella").
+hasTopping("ProsciuttoPizza", "Ham").
+
+//Capricciosa
+hasSauce("Capricciosa", "TomatoSauce").
+hasTopping("Capricciosa", "Mozzarella").
+hasTopping("Capricciosa", "Ham").
+hasTopping("Capricciosa", "Mushroom").
+hasTopping("Capricciosa", "Artichoke").
+hasTopping("Capricciosa", "BlackOlive").
+
+//QuattroStagioni
+hasSauce("QuattroStagioni", "TomatoSauce").
+hasTopping("QuattroStagioni", "Mozzarella").
+hasTopping("QuattroStagioni", "Ham").
+hasTopping("QuattroStagioni", "Mushroom").
+hasTopping("QuattroStagioni", "Artichoke").
+hasTopping("QuattroStagioni", "GreenOlive").
+
+//SeafoodPizza
+hasSauce("SeafoodPizza", "TomatoSauce").
+hasTopping("SeafoodPizza", "Shrimp").
+hasTopping("SeafoodPizza", "Tuna").
+hasTopping("SeafoodPizza", "Anchovy").
+hasTopping("SeafoodPizza", "Garlic").
+
+//TonnoPizza
+hasSauce("TonnoPizza", "TomatoSauce").
+hasTopping("TonnoPizza", "Mozzarella").
+hasTopping("TonnoPizza", "Tuna").
+hasTopping("TonnoPizza", "RedOnion").
+
+//BBQChickenPizza
+hasSauce("BBQChickenPizza", "TomatoSauce").
+hasTopping("BBQChickenPizza", "Mozzarella").
+hasTopping("BBQChickenPizza", "Chicken").
+hasTopping("BBQChickenPizza", "RedOnion").
+
+//Vegetariana
+hasSauce("Vegetariana", "TomatoSauce").
+hasTopping("Vegetariana", "Mozzarella").
+hasTopping("Vegetariana", "BellPepper").
+hasTopping("Vegetariana", "Onion").
+hasTopping("Vegetariana", "Mushroom").
+hasTopping("Vegetariana", "Spinach").
+
+//Calzone
+hasSauce("Calzone", "TomatoSauce").
+hasTopping("Calzone", "Mozzarella").
+hasTopping("Calzone", "Ricotta").
+hasTopping("Calzone", "Ham").
 
 //1.3 properties of ingredients
 .decl hot(ingredient:symbol)
-.decl containsAllergen(ingredient:symbol, allergen:symbol)
-
 hot("ChiliPepper").
+
+.decl containsAllergen(ingredient:symbol, allergen:symbol)
 containsAllergen("Mozzarella", "Dairy").
+containsAllergen("Gorgonzola", "Dairy").
+containsAllergen("Parmesan", "Dairy").
+containsAllergen("Ricotta", "Dairy").
+containsAllergen("Pesto", "Dairy").
 
 //2. RULES
 
@@ -56,17 +211,21 @@ subClassOf(x,z) :-
 .output subClassOf
 
 //2.2 ingredient classifications
-.decl containsCategory(pizza:symbol, category:symbol)
+.decl hasIngredient(pizza:symbol, ingredient:symbol)
+hasIngredient(p, i) :- hasTopping(p, i).
+hasIngredient(p, i) :- hasSauce(p, i).
 
+.decl containsCategory(pizza:symbol, category:symbol)
 containsCategory(p, c) :-
-    hasTopping(p, t),
-    subClassOf(t, c).
+    hasIngredient(p, i),
+    subClassOf(i, c).
 .output containsCategory
-//if pizza p has topping t, and topping t is a subclass of category c, then pizza p contains an ingredient of category c
+//if pizza p has ingredient i, and ingredient i is a subclass of category c, then pizza p contains an ingredient of category c
 
 .decl containsMeat(pizza:symbol)
 .decl containsCheese(pizza:symbol)
 .decl containsVegetable(pizza:symbol)
+.decl containsSeafood(pizza:symbol)
 
 containsMeat(p) :-
     containsCategory(p, "MeatTopping").
@@ -76,25 +235,55 @@ containsCheese(p) :-
 
 containsVegetable(p) :-
     containsCategory(p, "VegetableTopping").
+
+containsSeafood(p) :-
+    containsCategory(p, "SeafoodTopping").
  
 .output containsMeat
 .output containsCheese
 .output containsVegetable
+.output containsSeafood
 
 //2.3 spicy pizzas
-
+.decl spicy(pizza:symbol)
+spicy(p) :-
+    hasIngredient(p, i),
+    hot(i).
+.output spicy
 
 //2.4 meat and vegetable pizzas
-
+.decl meatAndVegetable(pizza:symbol)
+meatAndVegetable(p) :-
+    containsMeat(p),
+    containsVegetable(p).
+.output meatAndVegetable
 
 //2.5 vegetarian pizzas
+.decl pizza(p:symbol)
+pizza(p) :-
+    subClassOf(p, "NamedPizza").
 
+.decl vegetarian(pizza:symbol)
+vegetarian(p) :-
+    pizza(p),
+    !containsMeat(p),
+    !containsSeafood(p).
+.output vegetarian
 
 //2.6 vegan pizzas
+.decl vegan(pizza:symbol) 
+vegan(p) :-
+    vegetarian(p),
+    !containsMeat(p),
+    !containsCheese.
+.output vegan
 
-
-//2.7 dairy-free pizzas
-
+//2.7 dairyFree pizzas
+.decl dairyFree(pizza:symbol)
+dairyFree(p) :-
+    pizza(p),
+    !containsAllergen(p).
+.output dairyFree
 
 
 
