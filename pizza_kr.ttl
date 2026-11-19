@@ -1,0 +1,1495 @@
+@prefix : <http://example.org/kr-project/pizza#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.org/kr-project/pizza#> .
+
+<http://example.org/kr-project/pizza> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/kr-project/pizza#containsAllergen
+:containsAllergen rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdfs:domain [ rdf:type owl:Class ;
+                                owl:unionOf ( :Ingredient
+                                              :Pizza
+                                            )
+                              ] ;
+                  rdfs:range :Allergen ;
+                  owl:propertyChainAxiom ( :hasIngredient
+                                           :containsAllergen
+                                         ) .
+
+
+###  http://example.org/kr-project/pizza#cookedBy
+:cookedBy rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdfs:domain :Pizza ;
+          rdfs:range :CookingMethod .
+
+
+###  http://example.org/kr-project/pizza#hasBase
+:hasBase rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf :hasIngredient ;
+         rdf:type owl:FunctionalProperty ;
+         rdfs:domain :Pizza ;
+         rdfs:range :PizzaBase .
+
+
+###  http://example.org/kr-project/pizza#hasCheese
+:hasCheese rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :hasTopping ;
+           rdfs:domain :Pizza ;
+           rdfs:range :CheeseTopping .
+
+
+###  http://example.org/kr-project/pizza#hasIngredient
+:hasIngredient rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               owl:inverseOf :isIngredientOf ;
+               rdf:type owl:TransitiveProperty ;
+               rdfs:range :Ingredient .
+
+
+###  http://example.org/kr-project/pizza#hasSauce
+:hasSauce rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :hasIngredient ;
+          rdfs:domain :Pizza ;
+          rdfs:range :Sauce .
+
+
+###  http://example.org/kr-project/pizza#hasSpiciness
+:hasSpiciness rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain :Ingredient ;
+              rdfs:range :Spiciness .
+
+
+###  http://example.org/kr-project/pizza#hasStyle
+:hasStyle rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdf:type owl:FunctionalProperty ;
+          rdfs:domain :Pizza ;
+          rdfs:range :PizzaStyle .
+
+
+###  http://example.org/kr-project/pizza#hasTopping
+:hasTopping rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :hasIngredient ;
+            rdfs:domain :Pizza ;
+            rdfs:range :Topping .
+
+
+###  http://example.org/kr-project/pizza#isIngredientOf
+:isIngredientOf rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf owl:topObjectProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/kr-project/pizza#Allergen
+:Allergen rdf:type owl:Class .
+
+
+###  http://example.org/kr-project/pizza#Anchovy
+:Anchovy rdf:type owl:Class ;
+         rdfs:subClassOf :SeafoodTopping .
+
+
+###  http://example.org/kr-project/pizza#Artichoke
+:Artichoke rdf:type owl:Class ;
+           rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#Arugula
+:Arugula rdf:type owl:Class ;
+         rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#BBQChickenPizza
+:BBQChickenPizza rdf:type owl:Class ;
+                 rdfs:subClassOf :NamedPizza ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasSauce ;
+                                   owl:someValuesFrom :TomatoSauce
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Chicken
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Mozzarella
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :RedOnion
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasSauce ;
+                                   owl:allValuesFrom :TomatoSauce
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:allValuesFrom [ rdf:type owl:Class ;
+                                                       owl:unionOf ( :Chicken
+                                                                     :Mozzarella
+                                                                     :RedOnion
+                                                                   )
+                                                     ]
+                                 ] .
+
+
+###  http://example.org/kr-project/pizza#Bacon
+:Bacon rdf:type owl:Class ;
+       rdfs:subClassOf :MeatTopping .
+
+
+###  http://example.org/kr-project/pizza#Basil
+:Basil rdf:type owl:Class ;
+       rdfs:subClassOf :HerbTopping ;
+       owl:disjointWith :Oregano .
+
+
+###  http://example.org/kr-project/pizza#Beef
+:Beef rdf:type owl:Class ;
+      rdfs:subClassOf :MeatTopping .
+
+
+###  http://example.org/kr-project/pizza#BellPepper
+:BellPepper rdf:type owl:Class ;
+            rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#BlackOlive
+:BlackOlive rdf:type owl:Class ;
+            rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#Calzone
+:Calzone rdf:type owl:Class ;
+         rdfs:subClassOf :NamedPizza ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSauce ;
+                           owl:someValuesFrom :TomatoSauce
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTopping ;
+                           owl:someValuesFrom :Ham
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTopping ;
+                           owl:someValuesFrom :Mozzarella
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTopping ;
+                           owl:someValuesFrom :Ricotta
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSauce ;
+                           owl:allValuesFrom :TomatoSauce
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTopping ;
+                           owl:allValuesFrom [ rdf:type owl:Class ;
+                                               owl:unionOf ( :Ham
+                                                             :Mozzarella
+                                                             :Ricotta
+                                                           )
+                                             ]
+                         ] .
+
+
+###  http://example.org/kr-project/pizza#Capricciosa
+:Capricciosa rdf:type owl:Class ;
+             rdfs:subClassOf :NamedPizza ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSauce ;
+                               owl:someValuesFrom :TomatoSauce
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Artichoke
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :BlackOlive
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Ham
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Mozzarella
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Mushroom
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:allValuesFrom [ rdf:type owl:Class ;
+                                                   owl:unionOf ( :Artichoke
+                                                                 :BlackOlive
+                                                                 :Ham
+                                                                 :Mozzarella
+                                                                 :Mushroom
+                                                               )
+                                                 ]
+                             ] .
+
+
+###  http://example.org/kr-project/pizza#Cashew
+:Cashew rdf:type owl:Class ;
+        rdfs:subClassOf :NutTopping .
+
+
+###  http://example.org/kr-project/pizza#CheesePizza
+:CheesePizza rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :hasTopping ;
+                                                          owl:someValuesFrom :CheeseTopping
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+             rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#CheeseTopping
+:CheeseTopping rdf:type owl:Class ;
+               rdfs:subClassOf :Topping .
+
+
+###  http://example.org/kr-project/pizza#CheeselessPizza
+:CheeselessPizza rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                            [ rdf:type owl:Class ;
+                                                              owl:complementOf [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :hasTopping ;
+                                                                                 owl:someValuesFrom :CheeseTopping
+                                                                               ]
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#Chicken
+:Chicken rdf:type owl:Class ;
+         rdfs:subClassOf :MeatTopping .
+
+
+###  http://example.org/kr-project/pizza#ChiliPepper
+:ChiliPepper rdf:type owl:Class ;
+             rdfs:subClassOf :VegetableTopping ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSpiciness ;
+                               owl:someValuesFrom :Hot
+                             ] .
+
+
+###  http://example.org/kr-project/pizza#CookingMethod
+:CookingMethod rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Class ;
+                                     owl:oneOf ( :ElectricOven
+                                                 :WoodFired
+                                               )
+                                   ] .
+
+
+###  http://example.org/kr-project/pizza#DairyFreePizza
+:DairyFreePizza rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :hasSauce ;
+                                                             owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                                 owl:complementOf :Pesto
+                                                                               ]
+                                                           ]
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :hasTopping ;
+                                                             owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                                 owl:complementOf [ owl:intersectionOf ( :CheeseTopping
+                                                                                                                         [ rdf:type owl:Class ;
+                                                                                                                           owl:complementOf :VeganCheese
+                                                                                                                         ]
+                                                                                                                       ) ;
+                                                                                                    rdf:type owl:Class
+                                                                                                  ]
+                                                                               ]
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#Diavola
+:Diavola rdf:type owl:Class ;
+         rdfs:subClassOf :NamedPizza ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSauce ;
+                           owl:someValuesFrom :TomatoSauce
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTopping ;
+                           owl:someValuesFrom :ChiliPepper
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTopping ;
+                           owl:someValuesFrom :Mozzarella
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTopping ;
+                           owl:someValuesFrom :Salami
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSauce ;
+                           owl:allValuesFrom :TomatoSauce
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTopping ;
+                           owl:allValuesFrom [ rdf:type owl:Class ;
+                                               owl:unionOf ( :ChiliPepper
+                                                             :Mozzarella
+                                                             :Salami
+                                                           )
+                                             ]
+                         ] .
+
+
+###  http://example.org/kr-project/pizza#Dough
+:Dough rdf:type owl:Class ;
+       rdfs:subClassOf :Ingredient ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :containsAllergen ;
+                         owl:hasValue :Gluten
+                       ] .
+
+
+###  http://example.org/kr-project/pizza#FishPizza
+:FishPizza rdf:type owl:Class ;
+           owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :hasTopping ;
+                                                        owl:someValuesFrom :SeafoodTopping
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+           rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#FruitTopping
+:FruitTopping rdf:type owl:Class ;
+              rdfs:subClassOf :Topping .
+
+
+###  http://example.org/kr-project/pizza#FunghiPizza
+:FunghiPizza rdf:type owl:Class ;
+             rdfs:subClassOf :NamedPizza ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSauce ;
+                               owl:someValuesFrom :TomatoSauce
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Mozzarella
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Mushroom
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSauce ;
+                               owl:allValuesFrom :TomatoSauce
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:allValuesFrom [ rdf:type owl:Class ;
+                                                   owl:unionOf ( :Mozzarella
+                                                                 :Mushroom
+                                                               )
+                                                 ]
+                             ] .
+
+
+###  http://example.org/kr-project/pizza#Garlic
+:Garlic rdf:type owl:Class ;
+        rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#GlutenFreePizza
+:GlutenFreePizza rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                            [ rdf:type owl:Class ;
+                                                              owl:complementOf [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :containsAllergen ;
+                                                                                 owl:hasValue :Gluten
+                                                                               ]
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#Gorgonzola
+:Gorgonzola rdf:type owl:Class ;
+            rdfs:subClassOf :CheeseTopping ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :containsAllergen ;
+                              owl:hasValue :Dairy
+                            ] .
+
+
+###  http://example.org/kr-project/pizza#GreenOlive
+:GreenOlive rdf:type owl:Class ;
+            rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#Ham
+:Ham rdf:type owl:Class ;
+     rdfs:subClassOf :MeatTopping .
+
+
+###  http://example.org/kr-project/pizza#HawaiianPizza
+:HawaiianPizza rdf:type owl:Class ;
+               rdfs:subClassOf :NamedPizza ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasSauce ;
+                                 owl:someValuesFrom :TomatoSauce
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasTopping ;
+                                 owl:someValuesFrom :Ham
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasTopping ;
+                                 owl:someValuesFrom :Mozzarella
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasTopping ;
+                                 owl:someValuesFrom :Pineapple
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasSauce ;
+                                 owl:allValuesFrom :TomatoSauce
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasTopping ;
+                                 owl:allValuesFrom [ rdf:type owl:Class ;
+                                                     owl:unionOf ( :Ham
+                                                                   :Mozzarella
+                                                                   :Pineapple
+                                                                 )
+                                                   ]
+                               ] .
+
+
+###  http://example.org/kr-project/pizza#HerbTopping
+:HerbTopping rdf:type owl:Class ;
+             rdfs:subClassOf :Topping .
+
+
+###  http://example.org/kr-project/pizza#Hot
+:Hot rdf:type owl:Class ;
+     rdfs:subClassOf :Spiciness .
+
+
+###  http://example.org/kr-project/pizza#Ingredient
+:Ingredient rdf:type owl:Class .
+
+
+###  http://example.org/kr-project/pizza#Jalapeno
+:Jalapeno rdf:type owl:Class ;
+          rdfs:subClassOf :ChiliPepper .
+
+
+###  http://example.org/kr-project/pizza#LegumeTopping
+:LegumeTopping rdf:type owl:Class ;
+               rdfs:subClassOf :Topping .
+
+
+###  http://example.org/kr-project/pizza#Margherita
+:Margherita rdf:type owl:Class ;
+            rdfs:subClassOf :NamedPizza ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasSauce ;
+                              owl:someValuesFrom :TomatoSauce
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:someValuesFrom :Basil
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:someValuesFrom :Mozzarella
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasSauce ;
+                              owl:allValuesFrom :TomatoSauce
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:allValuesFrom [ rdf:type owl:Class ;
+                                                  owl:unionOf ( :Basil
+                                                                :Mozzarella
+                                                              )
+                                                ]
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasStyle ;
+                              owl:hasValue :Neapolitan
+                            ] .
+
+
+###  http://example.org/kr-project/pizza#Marinara
+:Marinara rdf:type owl:Class ;
+          rdfs:subClassOf :NamedPizza ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasSauce ;
+                            owl:someValuesFrom :TomatoSauce
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTopping ;
+                            owl:someValuesFrom :Garlic
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTopping ;
+                            owl:someValuesFrom :Oregano
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasSauce ;
+                            owl:allValuesFrom :TomatoSauce
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTopping ;
+                            owl:allValuesFrom [ rdf:type owl:Class ;
+                                                owl:unionOf ( :Garlic
+                                                              :Oregano
+                                                            )
+                                              ]
+                          ] .
+
+
+###  http://example.org/kr-project/pizza#MeatAndVegPizza
+:MeatAndVegPizza rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :hasTopping ;
+                                                              owl:someValuesFrom :MeatTopping
+                                                            ]
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :hasTopping ;
+                                                              owl:someValuesFrom :VegetableTopping
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#MeatPizza
+:MeatPizza rdf:type owl:Class ;
+           owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :hasTopping ;
+                                                        owl:someValuesFrom :MeatTopping
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+           rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#MeatTopping
+:MeatTopping rdf:type owl:Class ;
+             rdfs:subClassOf :Topping .
+
+
+###  http://example.org/kr-project/pizza#Medium
+:Medium rdf:type owl:Class ;
+        rdfs:subClassOf :Spiciness .
+
+
+###  http://example.org/kr-project/pizza#Mild
+:Mild rdf:type owl:Class ;
+      rdfs:subClassOf :Spiciness .
+
+
+###  http://example.org/kr-project/pizza#Mozzarella
+:Mozzarella rdf:type owl:Class ;
+            rdfs:subClassOf :CheeseTopping ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :containsAllergen ;
+                              owl:hasValue :Dairy
+                            ] .
+
+
+###  http://example.org/kr-project/pizza#Mushroom
+:Mushroom rdf:type owl:Class ;
+          rdfs:subClassOf :MushroomTopping .
+
+
+###  http://example.org/kr-project/pizza#MushroomTopping
+:MushroomTopping rdf:type owl:Class ;
+                 rdfs:subClassOf :Topping .
+
+
+###  http://example.org/kr-project/pizza#NamedPizza
+:NamedPizza rdf:type owl:Class ;
+            rdfs:subClassOf :Pizza ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasBase ;
+                              owl:someValuesFrom :PizzaBase
+                            ] .
+
+
+###  http://example.org/kr-project/pizza#NeapolitanPizza
+:NeapolitanPizza rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :hasStyle ;
+                                                              owl:hasValue :Neapolitan
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :Pizza ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :cookedBy ;
+                                   owl:hasValue :WoodFired
+                                 ] .
+
+
+###  http://example.org/kr-project/pizza#NonVegetarianPizza
+:NonVegetarianPizza rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                               [ rdf:type owl:Class ;
+                                                                 owl:complementOf :VegetarianPizza
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] ;
+                    rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#NutContainingPizza
+:NutContainingPizza rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :containsAllergen ;
+                                                                 owl:hasValue :Nuts
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] ;
+                    rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#NutTopping
+:NutTopping rdf:type owl:Class ;
+            rdfs:subClassOf :Topping ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :containsAllergen ;
+                              owl:hasValue :Nuts
+                            ] .
+
+
+###  http://example.org/kr-project/pizza#OliveOil
+:OliveOil rdf:type owl:Class ;
+          rdfs:subClassOf :Sauce .
+
+
+###  http://example.org/kr-project/pizza#Onion
+:Onion rdf:type owl:Class ;
+       rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#Oregano
+:Oregano rdf:type owl:Class ;
+         rdfs:subClassOf :HerbTopping .
+
+
+###  http://example.org/kr-project/pizza#Ortolana
+:Ortolana rdf:type owl:Class ;
+          rdfs:subClassOf :NamedPizza ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasSauce ;
+                            owl:someValuesFrom :Pesto
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTopping ;
+                            owl:someValuesFrom :Artichoke
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTopping ;
+                            owl:someValuesFrom :Arugula
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTopping ;
+                            owl:someValuesFrom :BellPepper
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTopping ;
+                            owl:someValuesFrom :Spinach
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasSauce ;
+                            owl:allValuesFrom :Pesto
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTopping ;
+                            owl:allValuesFrom [ rdf:type owl:Class ;
+                                                owl:unionOf ( :Artichoke
+                                                              :Arugula
+                                                              :BellPepper
+                                                              :Spinach
+                                                            )
+                                              ]
+                          ] .
+
+
+###  http://example.org/kr-project/pizza#Parmesan
+:Parmesan rdf:type owl:Class ;
+          rdfs:subClassOf :CheeseTopping ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :containsAllergen ;
+                            owl:hasValue :Dairy
+                          ] .
+
+
+###  http://example.org/kr-project/pizza#Pepperoni
+:Pepperoni rdf:type owl:Class ;
+           rdfs:subClassOf :MeatTopping ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasSpiciness ;
+                             owl:someValuesFrom :Medium
+                           ] .
+
+
+###  http://example.org/kr-project/pizza#PepperoniPizza
+:PepperoniPizza rdf:type owl:Class ;
+                rdfs:subClassOf :NamedPizza ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasSauce ;
+                                  owl:someValuesFrom :TomatoSauce
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasTopping ;
+                                  owl:someValuesFrom :Mozzarella
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasTopping ;
+                                  owl:someValuesFrom :Pepperoni
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasSauce ;
+                                  owl:allValuesFrom :TomatoSauce
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :hasTopping ;
+                                  owl:allValuesFrom [ rdf:type owl:Class ;
+                                                      owl:unionOf ( :Mozzarella
+                                                                    :Pepperoni
+                                                                  )
+                                                    ]
+                                ] .
+
+
+###  http://example.org/kr-project/pizza#Pesto
+:Pesto rdf:type owl:Class ;
+       rdfs:subClassOf :Sauce ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasIngredient ;
+                         owl:someValuesFrom :Basil
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasIngredient ;
+                         owl:someValuesFrom :Cashew
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasIngredient ;
+                         owl:someValuesFrom :Parmesan
+                       ] .
+
+
+###  http://example.org/kr-project/pizza#PestoBasedPizza
+:PestoBasedPizza rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :hasSauce ;
+                                                              owl:someValuesFrom :Pesto
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#Pineapple
+:Pineapple rdf:type owl:Class ;
+           rdfs:subClassOf :FruitTopping .
+
+
+###  http://example.org/kr-project/pizza#Pizza
+:Pizza rdf:type owl:Class .
+
+
+###  http://example.org/kr-project/pizza#PizzaBase
+:PizzaBase rdf:type owl:Class ;
+           rdfs:subClassOf :Ingredient ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasIngredient ;
+                             owl:someValuesFrom :Dough
+                           ] .
+
+
+###  http://example.org/kr-project/pizza#PizzaStyle
+:PizzaStyle rdf:type owl:Class ;
+            owl:equivalentClass [ rdf:type owl:Class ;
+                                  owl:oneOf ( :Neapolitan
+                                              :Roman
+                                              :Sicilian
+                                            )
+                                ] .
+
+
+###  http://example.org/kr-project/pizza#PlantPizza
+:PlantPizza rdf:type owl:Class ;
+            rdfs:subClassOf :NamedPizza ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasSauce ;
+                              owl:someValuesFrom :TomatoSauce
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:someValuesFrom :Spinach
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:someValuesFrom :Tofu
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:someValuesFrom :VeganCheese
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasSauce ;
+                              owl:allValuesFrom :TomatoSauce
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:allValuesFrom [ rdf:type owl:Class ;
+                                                  owl:unionOf ( :Spinach
+                                                                :Tofu
+                                                                :VeganCheese
+                                                              )
+                                                ]
+                            ] .
+
+
+###  http://example.org/kr-project/pizza#ProsciuttoPizza
+:ProsciuttoPizza rdf:type owl:Class ;
+                 rdfs:subClassOf :NamedPizza ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasSauce ;
+                                   owl:someValuesFrom :TomatoSauce
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Ham
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Mozzarella
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasSauce ;
+                                   owl:allValuesFrom :TomatoSauce
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:allValuesFrom [ rdf:type owl:Class ;
+                                                       owl:unionOf ( :Ham
+                                                                     :Mozzarella
+                                                                   )
+                                                     ]
+                                 ] .
+
+
+###  http://example.org/kr-project/pizza#QuattroFormaggi
+:QuattroFormaggi rdf:type owl:Class ;
+                 rdfs:subClassOf :NamedPizza ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasSauce ;
+                                   owl:someValuesFrom :TomatoSauce
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Gorgonzola
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Mozzarella
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Parmesan
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Ricotta
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:allValuesFrom [ rdf:type owl:Class ;
+                                                       owl:unionOf ( :Gorgonzola
+                                                                     :Mozzarella
+                                                                     :Parmesan
+                                                                     :Ricotta
+                                                                   )
+                                                     ]
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasCheese ;
+                                   owl:minQualifiedCardinality "4"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :CheeseTopping
+                                 ] .
+
+
+###  http://example.org/kr-project/pizza#QuattroStagioni
+:QuattroStagioni rdf:type owl:Class ;
+                 rdfs:subClassOf :NamedPizza ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasSauce ;
+                                   owl:someValuesFrom :TomatoSauce
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Artichoke
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :GreenOlive
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Ham
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Mozzarella
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:someValuesFrom :Mushroom
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasSauce ;
+                                   owl:allValuesFrom :TomatoSauce
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasTopping ;
+                                   owl:allValuesFrom [ rdf:type owl:Class ;
+                                                       owl:unionOf ( :Artichoke
+                                                                     :GreenOlive
+                                                                     :Ham
+                                                                     :Mozzarella
+                                                                     :Mushroom
+                                                                   )
+                                                     ]
+                                 ] .
+
+
+###  http://example.org/kr-project/pizza#RedOnion
+:RedOnion rdf:type owl:Class ;
+          rdfs:subClassOf :Onion .
+
+
+###  http://example.org/kr-project/pizza#Ricotta
+:Ricotta rdf:type owl:Class ;
+         rdfs:subClassOf :CheeseTopping ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :containsAllergen ;
+                           owl:hasValue :Dairy
+                         ] .
+
+
+###  http://example.org/kr-project/pizza#Salami
+:Salami rdf:type owl:Class ;
+        rdfs:subClassOf :MeatTopping ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasSpiciness ;
+                          owl:someValuesFrom :Medium
+                        ] .
+
+
+###  http://example.org/kr-project/pizza#Sauce
+:Sauce rdf:type owl:Class ;
+       rdfs:subClassOf :Ingredient .
+
+
+###  http://example.org/kr-project/pizza#SeafoodPizza
+:SeafoodPizza rdf:type owl:Class ;
+              rdfs:subClassOf :NamedPizza ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasSauce ;
+                                owl:someValuesFrom :TomatoSauce
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasTopping ;
+                                owl:someValuesFrom :Anchovy
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasTopping ;
+                                owl:someValuesFrom :Garlic
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasTopping ;
+                                owl:someValuesFrom :Shrimp
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasTopping ;
+                                owl:someValuesFrom :Tuna
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasSauce ;
+                                owl:allValuesFrom :TomatoSauce
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasTopping ;
+                                owl:allValuesFrom [ rdf:type owl:Class ;
+                                                    owl:unionOf ( :Anchovy
+                                                                  :Garlic
+                                                                  :Shrimp
+                                                                  :Tuna
+                                                                )
+                                                  ]
+                              ] .
+
+
+###  http://example.org/kr-project/pizza#SeafoodTopping
+:SeafoodTopping rdf:type owl:Class ;
+                rdfs:subClassOf :Topping ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :containsAllergen ;
+                                  owl:hasValue :Fish
+                                ] .
+
+
+###  http://example.org/kr-project/pizza#Shrimp
+:Shrimp rdf:type owl:Class ;
+        rdfs:subClassOf :SeafoodTopping .
+
+
+###  http://example.org/kr-project/pizza#Spiciness
+:Spiciness rdf:type owl:Class ;
+           owl:equivalentClass [ rdf:type owl:Class ;
+                                 owl:unionOf ( :Hot
+                                               :Medium
+                                               :Mild
+                                             )
+                               ] .
+
+
+###  http://example.org/kr-project/pizza#SpicyPizza
+:SpicyPizza rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :hasIngredient ;
+                                                         owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :hasSpiciness ;
+                                                                              owl:someValuesFrom :Hot
+                                                                            ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#Spinach
+:Spinach rdf:type owl:Class ;
+         rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#Tofu
+:Tofu rdf:type owl:Class ;
+      rdfs:subClassOf :LegumeTopping .
+
+
+###  http://example.org/kr-project/pizza#Tomato
+:Tomato rdf:type owl:Class ;
+        rdfs:subClassOf :VegetableTopping .
+
+
+###  http://example.org/kr-project/pizza#TomatoBasedPizza
+:TomatoBasedPizza rdf:type owl:Class ;
+                  owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty :hasSauce ;
+                                                               owl:someValuesFrom :TomatoSauce
+                                                             ]
+                                                           ) ;
+                                        rdf:type owl:Class
+                                      ] ;
+                  rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#TomatoSauce
+:TomatoSauce rdf:type owl:Class ;
+             rdfs:subClassOf :Sauce .
+
+
+###  http://example.org/kr-project/pizza#TonnoPizza
+:TonnoPizza rdf:type owl:Class ;
+            rdfs:subClassOf :NamedPizza ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasSauce ;
+                              owl:someValuesFrom :TomatoSauce
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:someValuesFrom :Mozzarella
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:someValuesFrom :RedOnion
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:someValuesFrom :Tuna
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasSauce ;
+                              owl:allValuesFrom :TomatoSauce
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasTopping ;
+                              owl:allValuesFrom [ rdf:type owl:Class ;
+                                                  owl:unionOf ( :Mozzarella
+                                                                :RedOnion
+                                                                :Tuna
+                                                              )
+                                                ]
+                            ] .
+
+
+###  http://example.org/kr-project/pizza#Topping
+:Topping rdf:type owl:Class ;
+         rdfs:subClassOf :Ingredient .
+
+
+###  http://example.org/kr-project/pizza#Tuna
+:Tuna rdf:type owl:Class ;
+      rdfs:subClassOf :SeafoodTopping .
+
+
+###  http://example.org/kr-project/pizza#VeganCheese
+:VeganCheese rdf:type owl:Class ;
+             rdfs:subClassOf :CheeseTopping .
+
+
+###  http://example.org/kr-project/pizza#VeganPizza
+:VeganPizza rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :hasSauce ;
+                                                         owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                             owl:unionOf ( :OliveOil
+                                                                                           :TomatoSauce
+                                                                                         )
+                                                                           ]
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :hasTopping ;
+                                                         owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                             owl:unionOf ( :FruitTopping
+                                                                                           :HerbTopping
+                                                                                           :LegumeTopping
+                                                                                           :MushroomTopping
+                                                                                           :VeganCheese
+                                                                                           :VegetableTopping
+                                                                                         )
+                                                                           ]
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#VegetableTopping
+:VegetableTopping rdf:type owl:Class ;
+                  rdfs:subClassOf :Topping .
+
+
+###  http://example.org/kr-project/pizza#VegetarianPizza
+:VegetarianPizza rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :Pizza
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :hasTopping ;
+                                                              owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                                  owl:complementOf [ rdf:type owl:Class ;
+                                                                                                     owl:unionOf ( :MeatTopping
+                                                                                                                   :SeafoodTopping
+                                                                                                                 )
+                                                                                                   ]
+                                                                                ]
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :Pizza .
+
+
+###  http://example.org/kr-project/pizza#Vegetariana
+:Vegetariana rdf:type owl:Class ;
+             rdfs:subClassOf :NamedPizza ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSauce ;
+                               owl:someValuesFrom :TomatoSauce
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :BellPepper
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Mozzarella
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Mushroom
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Onion
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:someValuesFrom :Spinach
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSauce ;
+                               owl:allValuesFrom :TomatoSauce
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTopping ;
+                               owl:allValuesFrom [ rdf:type owl:Class ;
+                                                   owl:unionOf ( :BellPepper
+                                                                 :Mozzarella
+                                                                 :Mushroom
+                                                                 :Onion
+                                                                 :Spinach
+                                                               )
+                                                 ]
+                             ] .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/kr-project/pizza#Dairy
+:Dairy rdf:type owl:NamedIndividual ,
+                :Allergen .
+
+
+###  http://example.org/kr-project/pizza#ElectricOven
+:ElectricOven rdf:type owl:NamedIndividual ,
+                       :CookingMethod .
+
+
+###  http://example.org/kr-project/pizza#Fish
+:Fish rdf:type owl:NamedIndividual ,
+               :Allergen .
+
+
+###  http://example.org/kr-project/pizza#Gluten
+:Gluten rdf:type owl:NamedIndividual ,
+                 :Allergen .
+
+
+###  http://example.org/kr-project/pizza#Neapolitan
+:Neapolitan rdf:type owl:NamedIndividual ,
+                     :PizzaStyle .
+
+
+###  http://example.org/kr-project/pizza#Nuts
+:Nuts rdf:type owl:NamedIndividual ,
+               :Allergen .
+
+
+###  http://example.org/kr-project/pizza#Roman
+:Roman rdf:type owl:NamedIndividual ,
+                :PizzaStyle .
+
+
+###  http://example.org/kr-project/pizza#Sicilian
+:Sicilian rdf:type owl:NamedIndividual ,
+                   :PizzaStyle .
+
+
+###  http://example.org/kr-project/pizza#WoodFired
+:WoodFired rdf:type owl:NamedIndividual ,
+                    :CookingMethod .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Allergen
+                :CookingMethod
+                :Ingredient
+                :Pizza
+                :PizzaStyle
+                :Spiciness
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Anchovy
+                :Shrimp
+                :Tuna
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Artichoke
+                :Arugula
+                :BellPepper
+                :BlackOlive
+                :ChiliPepper
+                :Garlic
+                :GreenOlive
+                :Onion
+                :Spinach
+                :Tomato
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :BBQChickenPizza
+                :Calzone
+                :Capricciosa
+                :Diavola
+                :FunghiPizza
+                :HawaiianPizza
+                :Margherita
+                :Marinara
+                :Ortolana
+                :PepperoniPizza
+                :PlantPizza
+                :ProsciuttoPizza
+                :QuattroFormaggi
+                :QuattroStagioni
+                :SeafoodPizza
+                :TonnoPizza
+                :Vegetariana
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Bacon
+                :Beef
+                :Chicken
+                :Ham
+                :Pepperoni
+                :Salami
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CheeseTopping
+                :FruitTopping
+                :HerbTopping
+                :LegumeTopping
+                :MeatTopping
+                :MushroomTopping
+                :NutTopping
+                :SeafoodTopping
+                :VegetableTopping
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Dough
+                :PizzaBase
+                :Sauce
+                :Topping
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Dough
+                :Sauce
+                :Topping
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Gorgonzola
+                :Mozzarella
+                :Parmesan
+                :Ricotta
+                :VeganCheese
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Hot
+                :Medium
+                :Mild
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :OliveOil
+                :Pesto
+                :TomatoSauce
+              )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Dairy
+                        :ElectricOven
+                        :Fish
+                        :Gluten
+                        :Neapolitan
+                        :Nuts
+                        :Roman
+                        :Sicilian
+                        :WoodFired
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
